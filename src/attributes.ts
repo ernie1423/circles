@@ -66,3 +66,8 @@ class Bar<dataType> extends Numerical<dataType> {
         }
     }
 }
+
+export {
+    Numerical,
+    Bar
+}
