@@ -3,6 +3,8 @@ import { Vector } from 'utils';
 
 class Entity {
     position: Vector;
+    force: Vector;
+    friction: number;
     abilities: Ability[];
 
     constructor()
@@ -19,6 +21,10 @@ class Entity {
             this.position = new Vector();
         }
 
+        this.force = new Vector();
+
+        this.friction = 1;
+
         this.abilities = [];
     }
 
@@ -26,6 +32,15 @@ class Entity {
         for(let ability of this.abilities){
             ability.update();
         }
+
+        this.position.add(this.force);
+        
+        let { x: oldX, y: oldY } = this.force;
+
+        this.force.set(
+            oldX - oldX * this.friction,
+            oldY - oldY * this.friction
+        )
     }
 }
 
