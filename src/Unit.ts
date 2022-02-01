@@ -13,8 +13,6 @@ class Unit extends Entity {
         current: number,
         recovery: number
     }
-
-    abilities: Ability[]
     
     constructor(x: number, y: number) {
         super(x, y);
@@ -24,14 +22,10 @@ class Unit extends Entity {
             current: 10,
             recovery: 0
         }
-
-        this.abilities = [];
     }
     
     update(){
-        for(let ability of this.abilities){
-            ability.update();
-        }
+        super.update();
 
         this.health.current += this.health.recovery;
 

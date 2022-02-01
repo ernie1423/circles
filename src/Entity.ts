@@ -1,7 +1,9 @@
+import { Ability } from 'Ability';
 import { Vector } from 'utils';
 
 class Entity {
     position: Vector;
+    abilities: Ability[];
 
     constructor()
     constructor(vector: Vector)
@@ -16,10 +18,14 @@ class Entity {
         else {
             this.position = new Vector();
         }
+
+        this.abilities = [];
     }
 
     update(): void {
-        
+        for(let ability of this.abilities){
+            ability.update();
+        }
     }
 }
 
