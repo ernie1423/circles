@@ -1,4 +1,5 @@
 import { Entity } from 'Entity';
+import { clamp } from 'utils';
 
 class Unit extends Entity {
     health: {
@@ -25,18 +26,13 @@ class Unit extends Entity {
     
     update(){
         super.update();
+        let { health, charge } = this;
 
-        this.health.current += this.health.recovery;
-
-        if(this.health.current > this.health.max)
-            this.health.current = this.health.max;
+        health.current = clamp(health.current + health.recovery, health.max, 0);
         
-        if(this.charge){
-            this.charge.current += this.charge.recovery;
-            
-            if(this.charge.current > this.charge.max)
-                this.charge.current = this.charge.max;
-        }
+        if(charge)
+            charge.current = clamp(charge.current + charge.recovery, charge.max, 0);
+        
     }
 }
 
