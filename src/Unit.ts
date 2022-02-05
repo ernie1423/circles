@@ -1,4 +1,3 @@
-import { Ability } from 'Ability';
 import { Entity } from 'Entity';
 
 class Unit extends Entity {
