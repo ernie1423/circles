@@ -28,10 +28,10 @@ class Unit extends Entity {
         super.update();
         let { health, charge } = this;
 
-        health.current = clamp(health.current + health.recovery, health.max, 0);
+        health.current = clamp(health.current + health.recovery, 0, health.max);
         
         if(charge)
-            charge.current = clamp(charge.current + charge.recovery, charge.max, 0);
+            charge.current = clamp(charge.current + charge.recovery, 0, charge.max);
         
     }
 }
