@@ -28,7 +28,13 @@ class Ability {
         let { cooldown } = this;
         let { recovery, current, max } = cooldown;
         
-        cooldown.current = clamp(current + recovery, 0, max);
+        cooldown.current = clamp(
+            current + recovery,
+            {
+                min: 0,
+                max: max
+            }
+        );
     }
 
     use(data?: any){

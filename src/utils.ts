@@ -81,7 +81,7 @@ class Vector {
  * @param min Минимальное значение
  * @param max Максимальное значение
  */
-function clamp(current: number, min: number, max: number): number {
+function clamp(current: number, {min = -Infinity, max = Infinity}: {min?: number, max?: number}): number {
     if(min > max)
         throw new Error('Значение "min" не может быть больше значения "max".');
     
