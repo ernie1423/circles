@@ -1,9 +1,16 @@
 import { Ability } from 'Ability';
+import { Attribute } from 'Attribute';
+import { Effect } from 'Effect';
 import { Vector } from 'utils';
 
 class Entity {
     position: Vector;
+
     abilities: Ability[];
+    effects: Effect[];
+    attributes: {[key: string]: Attribute};
+
+    beingRemoved: boolean;
 
     constructor()
     constructor(vector: Vector)
@@ -20,12 +27,48 @@ class Entity {
         }
 
         this.abilities = [];
+        this.attributes = {};
+        this.effects = [];
+        this.beingRemoved = false;
     }
 
-    update(): void {
-        for(let ability of this.abilities){
+    updateAbilities(){
+        this.abilities.forEach((ability) => {
             ability.update();
-        }
+            ability.recoverCooldown();
+        })
+    }
+
+    updateAttributes(){
+        Object.values(this.attributes).forEach((attribute) => {
+            if(attribute.resetting)
+                attribute.reset();
+            
+        });
+    }
+
+    updateEffects(){
+        this.effects.forEach(({ attributeChanges, lifespan }, i) => {
+            Object.entries(attributeChanges).forEach(([ name, toAdd ]) => {
+                if(name in this.attributes)
+                    this.attributes[name].value += toAdd;
+            })
+
+            if(lifespan <= 0){
+                this.effects.splice(i, 1);
+            }
+            else {
+                this.effects[i].lifespan--;
+            }
+        })
+
+        Object.values(this.attributes).forEach((attribute) => {
+            attribute.clamp();
+        });
+    }
+
+    interact(){
+
     }
 }
 
