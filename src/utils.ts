@@ -94,7 +94,14 @@ function clamp(current: number, {min = -Infinity, max = Infinity}: {min?: number
     return current;
 }
 
+function multiForEach<T = any>(array: Array<T>, ...callback: ((value: T, index: number) => void)[]): void {
+    [...callback].forEach((v) => {
+        array.forEach(v);
+    })
+}
+
 export {
     Vector,
-    clamp
+    clamp,
+    multiForEach
 }

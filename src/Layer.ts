@@ -1,4 +1,5 @@
 import { Entity } from 'Entity';
+import { multiForEach } from 'utils';
 
 class Layer {
     newEntities: Entity[];
@@ -17,11 +18,25 @@ class Layer {
         this.entities.push(...this.newEntities);
         this.newEntities = [];
 
-        this.entities.forEach((entity, i) => {
-            if(entity.beingRemoved){
-                this.entities.splice(i, 1);
+        multiForEach(this.entities,
+            (entity, i) => {
+                if(entity.beingRemoved){
+                    this.entities.splice(i, 1);
+                }
+            },
+            (entity) => {
+                entity.updateController()
+            },
+            (entity) => {
+                entity.updateAbilities()
+            },
+            (entity) => {
+                entity.updateAttributes()
+            },
+            (entity) => {
+                entity.updateEffects()
             }
-        })
+        )
     }
 }
 

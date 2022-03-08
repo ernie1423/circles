@@ -1,5 +1,6 @@
 import { Ability } from 'Ability';
 import { Attribute } from 'Attribute';
+import { Controller } from 'Controller';
 import { Effect } from 'Effect';
 import { Vector } from 'utils';
 
@@ -11,6 +12,8 @@ class Entity {
     attributes: {[key: string]: Attribute};
 
     beingRemoved: boolean;
+    
+    controller?: Controller;
 
     constructor()
     constructor(vector: Vector)
@@ -65,6 +68,10 @@ class Entity {
         Object.values(this.attributes).forEach((attribute) => {
             attribute.clamp();
         });
+    }
+
+    updateController(){
+        this.controller?.update();
     }
 
     interact(){
