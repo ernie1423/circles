@@ -3,32 +3,38 @@ import { Entity } from 'Entity';
 import { clamp } from 'utils';
 
 class Unit extends Entity {
-    attributes: {
-        healthLimit: Attribute,
-        healthRecovery: Attribute,
-        health: Attribute,
+   health: {
+       current: number,
+       max: null | number
+   }
+   
+   charge: {
+       current: number,
+       max: null | number
+   }
 
-        chargeLimit: Attribute,
+    attributes: {
+        healthRecovery: Attribute,
         chargeRecovery: Attribute,
-        charge: Attribute,
     }
     
     constructor(x: number, y: number) {
         super(x, y);
 
-        this.attributes = {
-            healthLimit: new Attribute(10),
-            healthRecovery: new Attribute(0, true),
-            health: new Attribute(10),
-
-            chargeLimit: new Attribute(10),
-            chargeRecovery: new Attribute(1, true),
-            charge: new Attribute(10)
+        this.health = {
+            current: 10,
+            max: 10
         }
 
-        const { attributes: atrs } = this;
-        atrs.health.max = atrs.healthLimit.value;
-        atrs.charge.max = atrs.chargeLimit.value;
+        this.charge = {
+            current: 10,
+            max: 10
+        }
+
+        this.attributes = {
+            healthRecovery: new Attribute(0),
+            chargeRecovery: new Attribute(0.1)
+        }
     }
 }
 

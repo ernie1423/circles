@@ -35,7 +35,8 @@ class Layer {
             },
             (entity) => {
                 entity.updateEffects()
-            }
+                entity.updateStats();
+            },
         )
     }
 }

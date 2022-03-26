@@ -94,6 +94,9 @@ function clamp(current: number, {min = -Infinity, max = Infinity}: {min?: number
     return current;
 }
 
+/**
+ * как ForEach, но позволяет применять несколько колбеков по отдельности
+ */
 function multiForEach<T = any>(array: Array<T>, ...callback: ((value: T, index: number) => void)[]): void {
     [...callback].forEach((v) => {
         array.forEach(v);

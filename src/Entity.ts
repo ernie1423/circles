@@ -2,32 +2,62 @@ import { Ability } from 'Ability';
 import { Attribute } from 'Attribute';
 import { Controller } from 'Controller';
 import { Effect } from 'Effect';
-import { Vector } from 'utils';
+import { Vector, clamp } from 'utils';
 
 class Entity {
+    /**
+     * Координаты сущности
+     */
     position: Vector;
 
+    /**
+     * Текущие и максимальные очки здоровья
+     */
+    health?: {
+        current: number,
+        max: null | number
+    }
+
+    /**
+     * Текущие и максимальные очки заряда
+     */
+    charge?: {
+        current: number,
+        max: null | number
+    }
+
+    /**
+     * Способности сущности
+     */
     abilities: Ability[];
+
+    /**
+     * Эффекты, наложенные на сущность
+     */
     effects: Effect[];
+
+    /**
+     * Набор атрибутов
+     */
     attributes: {[key: string]: Attribute};
 
+    /**
+     * Стоит ли убирать сущность
+     */
     beingRemoved: boolean;
     
+    /**
+     * Своего рода ИИ
+     */
     controller?: Controller;
 
-    constructor()
-    constructor(vector: Vector)
-    constructor(x: number, y: number)
-    constructor(xOrVector?: number | Vector, y?: number){
-        if(xOrVector instanceof Vector){
-            this.position = xOrVector.clone();
-        }
-        else if(typeof xOrVector == 'number' && typeof y == 'number'){
-            this.position = new Vector(xOrVector, y);
-        }
-        else {
-            this.position = new Vector();
-        }
+    /**
+     * 
+     * @param x Координата сущности
+     * @param y Координата сущности
+     */
+    constructor(x: number, y: number){
+        this.position = new Vector(x, y);
 
         this.abilities = [];
         this.attributes = {};
@@ -44,9 +74,7 @@ class Entity {
 
     updateAttributes(){
         Object.values(this.attributes).forEach((attribute) => {
-            if(attribute.resetting)
-                attribute.reset();
-            
+            attribute.reset();
         });
     }
 
@@ -64,10 +92,16 @@ class Entity {
                 this.effects[i].lifespan--;
             }
         })
+    }
 
-        Object.values(this.attributes).forEach((attribute) => {
-            attribute.clamp();
-        });
+    updateStats(){
+        if(this.health?.max){
+            this.health.current = clamp(this.health.current, { max: this.health.max });
+        }
+
+        if(this.charge?.max){
+            this.charge.current = clamp(this.charge.current, { max: this.charge.max });
+        }
     }
 
     updateController(){
