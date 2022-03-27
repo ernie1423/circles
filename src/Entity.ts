@@ -1,8 +1,8 @@
-import { Ability } from 'Ability';
-import { Attribute } from 'Attribute';
-import { Controller } from 'Controller';
-import { Effect } from 'Effect';
-import { Vector, clamp } from 'utils';
+import { Ability } from './Ability';
+import { Attribute } from './Attribute';
+import { Controller } from './Controller';
+import { Effect } from './Effect';
+import { Vector, clamp } from './utils';
 
 class Entity {
     /**

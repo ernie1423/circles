@@ -1,5 +1,5 @@
-import { Entity } from 'Entity';
-import { clamp } from 'utils';
+import { Entity } from './Entity';
+import { clamp } from './utils';
 
 class Ability {
     entity: Entity;

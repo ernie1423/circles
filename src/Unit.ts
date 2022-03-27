@@ -1,6 +1,5 @@
-import { Attribute } from 'Attribute';
-import { Entity } from 'Entity';
-import { clamp } from 'utils';
+import { Attribute } from './Attribute';
+import { Entity } from './Entity';
 
 class Unit extends Entity {
    health: {

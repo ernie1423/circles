@@ -1,5 +1,5 @@
-import { Entity } from 'Entity';
-import { multiForEach } from 'utils';
+import { Entity } from './Entity';
+import { multiForEach } from './utils';
 
 class Layer {
     newEntities: Entity[];
