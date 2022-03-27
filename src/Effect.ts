@@ -1,4 +1,10 @@
+import { id } from "./utils";
+
 class Effect {
+    /**
+     * Идентификатор эффекта
+     */
+    id: string;
 
     /**
      * Какое число будет прибавлено к значению атрибута, пока эффект не пропадёт
@@ -29,6 +35,8 @@ class Effect {
         this.attributeChanges = {};
         this.healthChanges = 0;
         this.chargeChanges = 0;
+
+        this.id = id();
     }
 }
 

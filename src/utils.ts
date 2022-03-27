@@ -103,8 +103,15 @@ function multiForEach<T = any>(array: Array<T>, ...callback: ((value: T, index: 
     })
 }
 
+let i = 0;
+
+function id(): string {
+    return (i++).toString(36);
+}
+
 export {
     Vector,
     clamp,
-    multiForEach
+    multiForEach,
+    id
 }

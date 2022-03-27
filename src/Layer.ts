@@ -1,13 +1,17 @@
 import { Entity } from './Entity';
-import { multiForEach } from './utils';
+import { id, multiForEach } from './utils';
 
 class Layer {
+    id: string;
+
     newEntities: Entity[];
     entities: Entity[];
 
     constructor(){
         this.newEntities = [];
         this.entities = [];
+
+        this.id = id();
     }
 
     interact(){

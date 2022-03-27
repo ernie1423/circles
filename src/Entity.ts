@@ -2,9 +2,15 @@ import { Ability } from './Ability';
 import { Attribute } from './Attribute';
 import { Controller } from './Controller';
 import { Effect } from './Effect';
-import { Vector, clamp } from './utils';
+import { Vector, clamp, id } from './utils';
 
 class Entity {
+
+    /**
+     * Идентификатор сущности
+     */
+    id: string;
+
     /**
      * Координаты сущности
      */
@@ -63,6 +69,8 @@ class Entity {
         this.attributes = {};
         this.effects = [];
         this.beingRemoved = false;
+
+        this.id = id();
     }
 
     updateAbilities(){

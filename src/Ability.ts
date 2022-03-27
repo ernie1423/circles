@@ -1,7 +1,12 @@
 import { Entity } from './Entity';
-import { clamp } from './utils';
+import { clamp, id } from './utils';
 
 class Ability {
+    /**
+     * Идентификатор способности
+     */
+    id: string;
+
     entity: Entity;
 
     cooldown: {
@@ -18,6 +23,8 @@ class Ability {
             current: 1,
             recovery: 1
         }
+
+        this.id = id();
     }
 
     resetCooldown(){
