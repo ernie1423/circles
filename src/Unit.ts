@@ -1,20 +1,14 @@
-import { Attribute } from './Attribute';
 import { Entity } from './Entity';
 
 class Unit extends Entity {
-   health: {
-       current: number,
-       max: null | number
-   }
-   
-   charge: {
-       current: number,
-       max: null | number
-   }
-
-    attributes: {
-        healthRecovery: Attribute,
-        chargeRecovery: Attribute,
+    health: {
+        current: number,
+        max: null | number
+    }
+    
+    charge: {
+        current: number,
+        max: null | number
     }
     
     constructor(x: number, y: number) {
@@ -28,11 +22,6 @@ class Unit extends Entity {
         this.charge = {
             current: 10,
             max: 10
-        }
-
-        this.attributes = {
-            healthRecovery: new Attribute(0),
-            chargeRecovery: new Attribute(0.1)
         }
     }
 }
