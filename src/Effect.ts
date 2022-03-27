@@ -8,12 +8,12 @@ class Effect {
     /**
      * Какое число будет прибавляться каждое обновление к текущим очкам здоровья
      */
-    healthChanges?: number;
+    healthChanges: number;
 
     /**
      * Какое число будет прибавляться каждое обновление к текущим очкам заряда
      */
-    chargeChanges?: number;
+    chargeChanges: number;
 
     /**
      * Сколько обновлений ещё продержится, 0 или менее для разового изменения характеристик
@@ -27,6 +27,8 @@ class Effect {
     constructor(lifespan: number = 0){
         this.lifespan = lifespan;
         this.attributeChanges = {};
+        this.healthChanges = 0;
+        this.chargeChanges = 0;
     }
 }
 

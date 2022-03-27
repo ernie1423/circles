@@ -79,11 +79,17 @@ class Entity {
     }
 
     updateEffects(){
-        this.effects.forEach(({ attributeChanges, lifespan }, i) => {
+        this.effects.forEach(({ attributeChanges, healthChanges, chargeChanges, lifespan }, i) => {
             Object.entries(attributeChanges).forEach(([ name, toAdd ]) => {
                 if(name in this.attributes)
                     this.attributes[name].value += toAdd;
             })
+
+            if(this.health)
+                this.health.current += healthChanges;
+
+            if(this.charge)
+                this.charge.current += chargeChanges;
 
             if(lifespan <= 0){
                 this.effects.splice(i, 1);
@@ -102,6 +108,11 @@ class Entity {
         if(this.charge?.max){
             this.charge.current = clamp(this.charge.current, { max: this.charge.max });
         }
+
+        if(this.health)
+            if(this.health.current <= 0){
+                this.beingRemoved = true;
+            }
     }
 
     updateController(){
