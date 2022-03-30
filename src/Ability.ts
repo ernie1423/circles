@@ -1,5 +1,27 @@
 import { Entity } from './Entity';
-import { clamp, id } from './utils';
+import { id, Vector } from './utils';
+
+interface AbilityInput {
+    /**
+     * Местность
+     */
+    position?: Vector,
+
+    /**
+     * Идентификатор сущности
+     */
+    entity?: string,
+
+    /**
+     * Идентификатор способности
+     */
+    ability?: string,
+
+    /**
+     * Идентификатор эффекта
+     */
+    effect?: string
+}
 
 class Ability {
     /**
@@ -7,44 +29,39 @@ class Ability {
      */
     id: string;
 
+    /**
+     * Сущность, обладающая этой способностью
+     */
     entity: Entity;
 
-    cooldown: {
+    /**
+     * Текущие и максимальные очки заряда
+     */
+    charge?: {
         max: number,
-        current: number,
-        recovery: number
+        current: number
+    }
+
+    /**
+     * Настройки способности
+     */
+    settings: {
+        
     }
 
     constructor(entity: Entity){
         this.entity = entity;
 
-        this.cooldown = {
-            max: 1,
-            current: 1,
-            recovery: 1
-        }
+        this.settings = {};
 
         this.id = id();
     }
 
-    resetCooldown(){
-        this.cooldown.current = 0;
+    updateSettings(data: typeof this['settings']){
+        this.settings = data;
     }
 
-    recoverCooldown(){
-        let { cooldown } = this;
-        let { recovery, current, max } = cooldown;
-        
-        cooldown.current = clamp(
-            current + recovery,
-            {
-                min: 0,
-                max: max
-            }
-        );
-    }
-
-    use(data?: any){
+    use(data: AbilityInput){
 
     }
 

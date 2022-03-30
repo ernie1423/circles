@@ -76,7 +76,6 @@ class Entity {
     updateAbilities(){
         this.abilities.forEach((ability) => {
             ability.update();
-            ability.recoverCooldown();
         })
     }
 
