@@ -1,4 +1,5 @@
 import { Entity } from './Entity';
+import { Layer } from './Layer';
 
 class Unit extends Entity {
     health: {
@@ -11,8 +12,8 @@ class Unit extends Entity {
         max: null | number
     }
     
-    constructor(x: number, y: number) {
-        super(x, y);
+    constructor(x: number, y: number, layer: Layer) {
+        super(x, y, layer);
 
         this.health = {
             current: 10,

@@ -2,9 +2,17 @@ import { Ability } from './Ability';
 import { Attribute } from './Attribute';
 import { Controller } from './Controller';
 import { Effect } from './Effect';
+import { Layer } from './Layer';
 import { Vector, clamp, id } from './utils';
 
 class Entity {
+
+    /**
+     * В каком слое находится
+     * 
+     * * используется в предметах / способностях
+     */
+    layer: Layer
 
     /**
      * Идентификатор сущности
@@ -62,13 +70,19 @@ class Entity {
      * @param x Координата сущности
      * @param y Координата сущности
      */
-    constructor(x: number, y: number){
+    constructor(x: number, y: number, layer: Layer){
         this.position = new Vector(x, y);
 
         this.abilities = [];
         this.attributes = {};
         this.effects = [];
         this.beingRemoved = false;
+
+        if(!layer.newEntities.includes(this)){
+            layer.newEntities.push(this);
+        }
+
+        this.layer = layer;
 
         this.id = id();
     }
