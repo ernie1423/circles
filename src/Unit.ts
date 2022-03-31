@@ -1,5 +1,5 @@
 import { Entity } from './Entity';
-import { Item } from './Item';
+import { Inventory } from './Inventory';
 import { Layer } from './Layer';
 
 class Unit extends Entity {
@@ -13,7 +13,7 @@ class Unit extends Entity {
         max: number
     }
 
-    inventory: Item[]
+    inventory: Inventory;
     
     constructor(x: number, y: number, layer: Layer) {
         super(x, y, layer);
@@ -28,7 +28,7 @@ class Unit extends Entity {
             max: 10
         }
 
-        this.inventory = [];
+        this.inventory = new Inventory(this);
     }
 }
 

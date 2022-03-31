@@ -2,7 +2,7 @@ import { Ability } from './Ability';
 import { Attribute } from './Attribute';
 import { Controller } from './Controller';
 import { Effect } from './Effect';
-import { Item } from './Item';
+import { Inventory } from './Inventory';
 import { Layer } from './Layer';
 import { Vector, clamp, id } from './utils';
 
@@ -49,7 +49,7 @@ class Entity {
     /**
      * Инвентарь сущности
      */
-    inventory?: Item[];
+    inventory?: Inventory;
 
     /**
      * Эффекты, наложенные на сущность
@@ -135,15 +135,10 @@ class Entity {
         })
     }
 
-    updateItems(){
-        if(this.inventory){
-            this.inventory.forEach((item, i) => {
-                item.update();
-                if(item.beingRemoved){
-                    this.inventory?.splice(i, 1);
-                }
-            })
-        }
+    updateInventory(){
+        if(this.inventory)
+            this.inventory.update();
+
     }
 
     updateStats(){

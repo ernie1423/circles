@@ -118,6 +118,10 @@ class Item {
         }
     }
 
+    link(entity?: Entity){
+        this.entity = entity;
+    }
+
     update(){
 
     }

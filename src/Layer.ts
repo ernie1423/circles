@@ -17,6 +17,11 @@ class Layer {
     interact(){
 
     }
+
+    add(entity: Entity){
+        if(!this.newEntities.includes(entity))
+            this.newEntities.push(entity);
+    }
     
     update(){
         this.entities.push(...this.newEntities);
@@ -33,7 +38,7 @@ class Layer {
             },
             (entity) => {
                 entity.updateAbilities()
-                entity.updateItems()
+                entity.updateInventory()
             },
             (entity) => {
                 entity.updateAttributes()

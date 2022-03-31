@@ -28,7 +28,7 @@ class DroppedItem<I extends Item> extends Entity {
         if(!this.beingRemoved){
             this.beingRemoved = true;
             this.item.beingRemoved = false;
-            sender.inventory?.push(this.item);
+            sender.inventory?.add(this.item);
         }
     }
 }
