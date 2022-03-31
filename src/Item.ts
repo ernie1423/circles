@@ -99,8 +99,7 @@ class Item {
             let { position: pos } = this.entity;
 
             this.entity
-                .layer
-                .newEntities.push(new DroppedItem(
+                .layer.add(new DroppedItem(
                     (typeof x == 'number') ? x : pos.x,
                     (typeof y == 'number') ? y : pos.y,
                     (layer) ? layer : this.entity.layer,
@@ -109,7 +108,7 @@ class Item {
             this.entity = undefined;
         }
         else if(typeof x == 'number' && typeof y == 'number' && layer){
-            layer.newEntities.push(new DroppedItem(
+            layer.add(new DroppedItem(
                 x,
                 y,
                 layer,
