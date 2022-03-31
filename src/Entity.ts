@@ -66,6 +66,13 @@ class Entity {
     controller?: Controller;
 
     /**
+     * "Индикаторы" сущности
+     */
+    state: {
+
+    }
+
+    /**
      * 
      * @param x Координата сущности
      * @param y Координата сущности
@@ -85,6 +92,7 @@ class Entity {
         this.layer = layer;
 
         this.id = id();
+        this.state = {};
     }
 
     updateAbilities(){
