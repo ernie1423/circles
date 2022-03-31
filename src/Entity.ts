@@ -2,6 +2,7 @@ import { Ability } from './Ability';
 import { Attribute } from './Attribute';
 import { Controller } from './Controller';
 import { Effect } from './Effect';
+import { Item } from './Item';
 import { Layer } from './Layer';
 import { Vector, clamp, id } from './utils';
 
@@ -29,7 +30,7 @@ class Entity {
      */
     health?: {
         current: number,
-        max: null | number
+        max?: number
     }
 
     /**
@@ -37,13 +38,18 @@ class Entity {
      */
     charge?: {
         current: number,
-        max: null | number
+        max?: number
     }
 
     /**
      * Способности сущности
      */
     abilities: Ability[];
+
+    /**
+     * Инвентарь сущности
+     */
+    inventory?: Item[];
 
     /**
      * Эффекты, наложенные на сущность
@@ -129,6 +135,17 @@ class Entity {
         })
     }
 
+    updateItems(){
+        if(this.inventory){
+            this.inventory.forEach((item, i) => {
+                item.update();
+                if(item.beingRemoved){
+                    this.inventory?.splice(i, 1);
+                }
+            })
+        }
+    }
+
     updateStats(){
         if(this.health?.max){
             this.health.current = clamp(this.health.current, { max: this.health.max });
@@ -148,7 +165,7 @@ class Entity {
         this.controller?.update();
     }
 
-    interact(){
+    interact(sender: Entity, data?: any){
 
     }
 }

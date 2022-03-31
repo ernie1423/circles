@@ -33,6 +33,7 @@ class Layer {
             },
             (entity) => {
                 entity.updateAbilities()
+                entity.updateItems()
             },
             (entity) => {
                 entity.updateAttributes()
