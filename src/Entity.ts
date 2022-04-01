@@ -1,6 +1,7 @@
 import { Ability } from './Ability';
 import { Attribute } from './Attribute';
-import { Controller } from './Controller';
+import { Behavior } from './Behavior';
+import { BehaviorInterface } from './BehaviorInterface';
 import { Effect } from './Effect';
 import { Equipped, Inventory } from './Inventory';
 import { Layer } from './Layer';
@@ -69,7 +70,7 @@ class Entity {
     /**
      * Своего рода ИИ
      */
-    controller?: Controller;
+    behaviorInterface: BehaviorInterface<this>;
 
     /**
      * "Индикаторы" сущности
@@ -108,6 +109,8 @@ class Entity {
 
         this.id = id();
         this.state = {};
+
+        this.behaviorInterface = new BehaviorInterface(this);
     }
 
     updateAbilities(){
@@ -167,8 +170,12 @@ class Entity {
             }
     }
 
-    updateController(){
-        this.controller?.update();
+    updateBehavior(){
+        this.behaviorInterface?.update();
+    }
+
+    setBehavior(behavior: Behavior<this>){
+        this.behaviorInterface.behavior = behavior;
     }
 
     interact(sender: Entity, data?: any){

@@ -34,7 +34,7 @@ class Layer {
                 }
             },
             (entity) => {
-                entity.updateController()
+                entity.updateBehavior()
             },
             (entity) => {
                 entity.updateAbilities()
