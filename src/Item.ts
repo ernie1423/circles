@@ -68,6 +68,10 @@ class Item {
         max?: number
     }
 
+    controlCost: {
+        [key: string]: number
+    }
+
     constructor(entity?: Entity){
         this.entity = entity;
 
@@ -76,6 +80,8 @@ class Item {
         this.durability = {
             current: 5,
         }
+        
+        this.controlCost = {};
 
         this.id = id();
         this.state = {};

@@ -2,7 +2,7 @@ import { Ability } from './Ability';
 import { Attribute } from './Attribute';
 import { Controller } from './Controller';
 import { Effect } from './Effect';
-import { Inventory } from './Inventory';
+import { Equipped, Inventory } from './Inventory';
 import { Layer } from './Layer';
 import { Vector, clamp, id } from './utils';
 
@@ -79,6 +79,15 @@ class Entity {
     }
 
     /**
+     * Очки контроля
+     * 
+     * * используются для экипировки предметов
+     */
+    control?: {[key: string]: {current: number, max: number}};
+
+    equipped?: Equipped;
+
+    /**
      * 
      * @param x Координата сущности
      * @param y Координата сущности
@@ -138,7 +147,9 @@ class Entity {
     updateInventory(){
         if(this.inventory)
             this.inventory.update();
-
+        if(this.equipped){
+            this.equipped.update();
+        }
     }
 
     updateStats(){
