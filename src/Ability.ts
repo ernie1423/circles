@@ -1,6 +1,9 @@
 import { Entity } from './Entity';
 import { id, Vector } from './utils';
 
+/**
+ * Входные данные способности
+ */
 interface AbilityInput {
     /**
      * Местность
@@ -23,6 +26,9 @@ interface AbilityInput {
     effect?: string
 }
 
+/**
+ * Отдельная функциональная черта сущности
+ */
 class Ability {
     /**
      * Идентификатор способности
@@ -50,7 +56,7 @@ class Ability {
     }
 
     /**
-     * "Индикаторы" способности
+     * Состояние способности
      */
     state: {
         usable: boolean
@@ -71,6 +77,11 @@ class Ability {
         this.settings = data;
     }
 
+    /**
+     * Пробует использовать способность с учётом её состояния. Возвращает `false`, если способность не удалось использовать, в ином случае `true`.
+     * 
+     * @param data Входные параметры способности
+     */
     softUse(data: AbilityInput): boolean {
         if(this.state.usable){
             this.use(data);
@@ -84,6 +95,9 @@ class Ability {
 
     }
 
+    /**
+     * Вызывается с каждым обновлением `Entity`.
+     */
     update(){
 
     }

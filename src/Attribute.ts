@@ -1,7 +1,17 @@
 import { Entity } from './Entity';
 
+/**
+ * Статистическая характеристика сущности, которая сбрасывается каждое обновление и вновь изменяется эффектами.
+ */
 class Attribute {
+    /**
+     * Значение, которое будет устанавливаться по умолчанию
+     */
     initialValue: number;
+
+    /**
+     * Изменяемое значение
+     */
     value: number;
     
     constructor(initialValue: number){
@@ -9,6 +19,9 @@ class Attribute {
         this.value = initialValue;
     }
 
+    /**
+     * Сбросить изменённое значение.
+     */
     reset(){
         this.value = this.initialValue;
     }

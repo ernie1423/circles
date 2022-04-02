@@ -74,11 +74,17 @@ class Item {
         
     }
 
+    /**
+     * Прочность предмета
+     */
     durability: {
         current: number,
         max?: number
     }
 
+    /**
+     * Затрачиваемые очки контроля при экипировке предмета
+     */
     controlCost: {
         [key: string]: number
     }
@@ -105,6 +111,9 @@ class Item {
         this.settings = data;
     }
 
+    /**
+     * Получить копию этого предмета, но с лишь некоторыми данными и без методов
+     */
     data(): ItemData<this> {
         return {
             id: this.id,
@@ -115,6 +124,11 @@ class Item {
         }
     }
 
+    /**
+     * Попробовать использовать предмет зависимо от состояния и прочего.
+     * 
+     * @param data Входные данные предмета
+     */
     softUse(data: ItemInput): boolean {
         if(this.state.usable){
             this.use(data);
@@ -128,6 +142,9 @@ class Item {
         
     }
 
+    /**
+     * Попробовать убрать предмет из инвентаря и создать сущность, отражающую этот предмет.
+     */
     drop(): void
     drop(x: number, y: number, layer: Layer): void
     drop(x?: number, y?: number, layer?: Layer){
@@ -155,10 +172,16 @@ class Item {
         }
     }
 
+    /**
+     * Привязать предмет к сущности
+     */
     link(entity?: Entity){
         this.entity = entity;
     }
 
+    /**
+     * Вызывается после каждого обновления сущности
+     */
     update(){
 
     }

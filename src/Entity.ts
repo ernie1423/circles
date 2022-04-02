@@ -7,6 +7,9 @@ import { Equipped, Inventory } from './Inventory';
 import { Layer } from './Layer';
 import { Vector, clamp, id } from './utils';
 
+/**
+ * Обладает позицией и может взаимодействовать с другими сущностями.
+ */
 class Entity {
 
     /**
@@ -68,7 +71,7 @@ class Entity {
     beingRemoved: boolean;
     
     /**
-     * Своего рода ИИ
+     * Интерфейс поведения сущности
      */
     behaviorInterface: BehaviorInterface<this>;
 
@@ -86,6 +89,9 @@ class Entity {
      */
     control?: {[key: string]: {current: number, max: number}};
 
+    /**
+     * Инвентарь для экипированных предметов
+     */
     equipped?: Equipped;
 
     /**
@@ -174,10 +180,18 @@ class Entity {
         this.behaviorInterface?.update();
     }
 
+    /**
+     * Устанавливает поведение сущности.
+     *  
+     * @param behavior Устанавливаемое поведение
+     */
     setBehavior(behavior: Behavior<this>){
         this.behaviorInterface.setBehavior(behavior);
     }
 
+    /**
+     * Произвести взаимодействие с сущностью.
+     */
     interact(sender: Entity, data?: any){
 
     }

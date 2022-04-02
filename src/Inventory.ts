@@ -11,6 +11,9 @@ class Inventory {
         this.entity = entity;
     }
 
+    /**
+     * Привязать инвентарь и предметы в нём к сущности.
+     */
     link(entity?: Entity){
         this.entity = entity;
 
@@ -19,6 +22,9 @@ class Inventory {
         })
     }
 
+    /**
+     * Добавить и привязать предмет.
+     */
     add(item: Item){
         if(this.entity)
             item.link(this.entity);
@@ -26,6 +32,11 @@ class Inventory {
         this.items.push(item);
     }
 
+    /**
+     * Убирает и отвязывает предмет, если он присутствует в инвентаре
+     * 
+     * @param item Предмет, который надо убрать и отвязать
+     */
     remove(item: Item){
         let i = this.items.indexOf(item);
         if(i != -1){
@@ -46,6 +57,9 @@ class Inventory {
     }
 }
 
+/**
+ * Инвентарь, изменённый под экипировку предметов.
+ */
 class Equipped extends Inventory {
     protected entity!: Entity;
 
@@ -74,6 +88,9 @@ class Equipped extends Inventory {
         })
     }
 
+    /**
+     * Добавить предмет в экипированные.
+     */
     add(...items: Item[]) {
         if(this.cooldown.current == 0){
             this.cooldown.current = this.cooldown.max;
@@ -111,6 +128,9 @@ class Equipped extends Inventory {
         }
     }
 
+    /**
+     * Убрать предмет из экипированных.
+     */
     remove(item: Item){
         if(this.entity.control){
             let { control } = this.entity;

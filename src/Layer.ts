@@ -4,6 +4,9 @@ import { id, multiForEach } from './utils';
 class Layer {
     id: string;
 
+    /**
+     * 
+     */
     newEntities: Entity[];
     entities: Entity[];
 

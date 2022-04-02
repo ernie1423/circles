@@ -2,6 +2,9 @@ import { Entity } from './Entity';
 import { Item } from './Item';
 import { Layer } from './Layer';
 
+/**
+ * Сущность, отражающая отдельный предмет.
+ */
 class DroppedItem<I extends Item> extends Entity {
     health: {
         current: number
@@ -24,6 +27,9 @@ class DroppedItem<I extends Item> extends Entity {
         this.state = item.state;
     }
 
+    /**
+     * Подобрать предмет.
+     */
     interact(sender: Entity){
         if(!this.beingRemoved){
             this.beingRemoved = true;
