@@ -49,10 +49,18 @@ class Ability {
         
     }
 
+    /**
+     * "Индикаторы" способности
+     */
+    state: {
+
+    }
+
     constructor(entity: Entity){
         this.entity = entity;
 
         this.settings = {};
+        this.state = {};
 
         this.id = id();
     }
