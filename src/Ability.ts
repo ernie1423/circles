@@ -53,20 +53,31 @@ class Ability {
      * "Индикаторы" способности
      */
     state: {
-
+        usable: boolean
     }
 
     constructor(entity: Entity){
         this.entity = entity;
 
         this.settings = {};
-        this.state = {};
+        this.state = {
+            usable: true
+        };
 
         this.id = id();
     }
 
     updateSettings(data: typeof this['settings']){
         this.settings = data;
+    }
+
+    softUse(data: AbilityInput): boolean {
+        if(this.state.usable){
+            this.use(data);
+            
+            return true;
+        }
+        else return false;
     }
 
     use(data: AbilityInput){

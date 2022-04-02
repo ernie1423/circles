@@ -64,7 +64,7 @@ class Item {
      * Состояние предмета
      */
     state: {
-
+        usable: boolean
     }
 
     /**
@@ -95,7 +95,9 @@ class Item {
         this.controlCost = {};
 
         this.id = id();
-        this.state = {};
+        this.state = {
+            usable: true
+        };
         this.beingRemoved = false;
     }
 
@@ -113,7 +115,16 @@ class Item {
         }
     }
 
-    use(data: ItemInput): any {
+    softUse(data: ItemInput): boolean {
+        if(this.state.usable){
+            this.use(data);
+
+            return true;
+        }
+        else return false;
+    }
+
+    use(data: ItemInput){
         
     }
 
