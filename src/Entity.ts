@@ -175,7 +175,7 @@ class Entity {
     }
 
     setBehavior(behavior: Behavior<this>){
-        this.behaviorInterface.behavior = behavior;
+        this.behaviorInterface.setBehavior(behavior);
     }
 
     interact(sender: Entity, data?: any){
