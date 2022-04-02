@@ -25,6 +25,17 @@ interface ItemInput {
     effect?: string
 }
 
+interface ItemData<I extends Item = Item> {
+    id: string;
+    charge?: {
+        max: number,
+        current: number
+    }
+    state: I['state'];
+    settings: I['settings'];
+    durability: I['durability'];
+}
+
 class Item {
     /**
      * Стоит ли убирать предмет
@@ -92,7 +103,17 @@ class Item {
         this.settings = data;
     }
 
-    use(data: ItemInput){
+    data(): ItemData<this> {
+        return {
+            id: this.id,
+            charge: this.charge,
+            state: this.state,
+            settings: this.settings,
+            durability: this.durability
+        }
+    }
+
+    use(data: ItemInput): any {
         
     }
 
@@ -133,5 +154,7 @@ class Item {
 }
 
 export {
-    Item
+    Item,
+    ItemData,
+    ItemInput
 }
