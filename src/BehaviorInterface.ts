@@ -1,6 +1,6 @@
 import { Behavior } from './Behavior';
 import { Entity } from './Entity';
-import { ItemData } from './Item';
+import { Item, ItemData } from './Item';
 
 class BehaviorInterface<E extends Entity> {
     entity: E;
@@ -32,6 +32,19 @@ class BehaviorInterface<E extends Entity> {
             else return null;
         }
         else return null;
+    }
+
+    useItem<I extends Item = Item>(id: string, data: Parameters<I['use']>[0]): boolean {
+        if(this.entity.inventory !== undefined){
+            let item = this.entity.inventory.items.find(item => item.id == id);
+
+            if(item){
+                item.use(data);
+                return true;
+            }
+            else return false;
+        }
+        else return false;
     }
 }
 
