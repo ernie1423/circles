@@ -28,9 +28,9 @@ interface AbilityInput {
 
 interface AbilityData<A extends Ability = Ability> {
     id: string,
-    charge: Ability['charge'],
-    settings: Ability['settings'],
-    state: Ability['state']
+    charge: A['charge'],
+    settings: A['settings'],
+    state: A['state']
 }
 
 /**
