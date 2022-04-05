@@ -26,6 +26,13 @@ interface AbilityInput {
     effect?: string
 }
 
+interface AbilityData<A extends Ability = Ability> {
+    id: string,
+    charge: Ability['charge'],
+    settings: Ability['settings'],
+    state: Ability['state']
+}
+
 /**
  * Отдельная функциональная черта сущности
  */
@@ -77,6 +84,15 @@ class Ability {
         this.settings = data;
     }
 
+    data(): AbilityData<this> {
+        return {
+            state: this.state,
+            settings: this.settings,
+            charge: this.charge,
+            id: this.id
+        }
+    }
+
     /**
      * Пробует использовать способность с учётом её состояния. Возвращает `false`, если способность не удалось использовать, в ином случае `true`.
      * 
@@ -104,5 +120,7 @@ class Ability {
 }
 
 export {
-    Ability
+    Ability,
+    AbilityData,
+    AbilityInput
 }
