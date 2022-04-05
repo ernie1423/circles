@@ -55,7 +55,7 @@ class Vision extends Ability {
         for(let entity of entities){
             let { position: pos2 } = entity;
 
-            if(pos1.distance(pos2) <= range){
+            if(pos1.distance(pos2) <= range && entity.id != this.entity.id){
                 this.state.sight.push(
                     this.toPartialEntityData(entity)
                 )
