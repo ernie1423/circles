@@ -1,5 +1,6 @@
 import { AbilityData, AbilityInput } from './Ability';
 import { Behavior } from './Behavior';
+import { EffectData } from './Effect';
 import { Entity, EntityData } from './Entity';
 import { Item, ItemData } from './Item';
 
@@ -114,6 +115,10 @@ class BehaviorInterface<E extends Entity> {
 
     entityData(): EntityData<E> {
         return this.entity.data();
+    }
+
+    getEffects(): EffectData[] {
+        return this.entity.effects.map(eff => eff.data());
     }
 }
 

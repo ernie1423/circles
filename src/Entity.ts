@@ -21,7 +21,7 @@ interface EntityData<E extends Entity> {
     items?: ItemData[];
     equippedItems?: ItemData[];
     effects: EffectData[];
-    attributes: {[key in keyof E['attributes']]: AttributeData}; // тут надо подправить
+    attributes: {[key in keyof E['attributes']]: AttributeData};
     state: E['state'];
     control: E['control'];
 }
