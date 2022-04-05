@@ -1,5 +1,13 @@
 import { id } from "./utils";
 
+interface EffectData<E extends Effect = Effect> {
+    id: string,
+    attributeChanges: E['attributeChanges'];
+    healthChanges: number,
+    chargeChanges: number,
+    lifespan: number
+}
+
 /**
  * Длительное воздействие на атрибуты и показатели здоровья / заряда.
  */
@@ -41,6 +49,19 @@ class Effect {
 
         this.id = id();
     }
+
+    data(): EffectData<this> {
+        return { 
+            id: this.id,
+            attributeChanges: this.attributeChanges,
+            healthChanges: this.healthChanges,
+            chargeChanges: this.chargeChanges,
+            lifespan: this.lifespan
+        }
+    }
 }
 
-export { Effect }
+export {
+    Effect,
+    EffectData
+}

@@ -1,11 +1,30 @@
-import { Ability } from './Ability';
-import { Attribute } from './Attribute';
+import { Ability, AbilityData } from './Ability';
+import { Attribute, AttributeData } from './Attribute';
 import { Behavior } from './Behavior';
 import { BehaviorInterface } from './BehaviorInterface';
-import { Effect } from './Effect';
+import { Effect, EffectData } from './Effect';
 import { Equipped, Inventory } from './Inventory';
+import { ItemData } from './Item';
 import { Layer } from './Layer';
 import { Vector, clamp, id } from './utils';
+
+interface EntityData<E extends Entity> {
+    layer: E['layer']['id'];
+    id: string,
+    position: {
+        x: number,
+        y: number
+    },
+    health: E['health'];
+    charge: E['charge'];
+    abilities: AbilityData[];
+    items?: ItemData[];
+    equippedItems?: ItemData[];
+    effects: EffectData[];
+    attributes: {[key in keyof E['attributes']]: AttributeData}; // тут надо подправить
+    state: E['state'];
+    control: E['control'];
+}
 
 /**
  * Обладает позицией и может взаимодействовать с другими сущностями.
@@ -195,8 +214,37 @@ class Entity {
     interact(sender: Entity, data?: any){
 
     }
+
+    data(): EntityData<this> {
+        let a = this;
+
+        let atrDatas: EntityData<this>['attributes'] = 
+            Object.fromEntries(
+                Object.entries(this.attributes)
+                .map(([name, attr]) => ([name, attr.data()]))
+            ) as EntityData<this>['attributes'];
+
+        return {
+            abilities: this.abilities.map(ab => ab.data()),
+            attributes: atrDatas,
+            charge: this.charge,
+            health: this.health,
+            control: this.control,
+            effects: this.effects.map(ef => ef.data()),
+            id: this.id,
+            items: this.inventory?.items.map(it => it.data()),
+            equippedItems: this.equipped?.items.map(it => it.data()),
+            layer: this.layer.id,
+            position: {
+                x: a.position.x,
+                y: a.position.y
+            },
+            state: this.state
+        }
+    }
 }
 
 export {
-    Entity
+    Entity,
+    EntityData
 }

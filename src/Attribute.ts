@@ -1,5 +1,10 @@
 import { Entity } from './Entity';
 
+interface AttributeData {
+    initialValue: number,
+    value: number
+}
+
 /**
  * Статистическая характеристика сущности, которая сбрасывается каждое обновление и вновь изменяется эффектами.
  */
@@ -29,8 +34,16 @@ class Attribute {
     update(entity: Entity){
         
     }
+
+    data(): AttributeData {
+        return {
+            initialValue: this.initialValue,
+            value: this.value
+        }
+    }
 }
 
 export {
-    Attribute
+    Attribute,
+    AttributeData
 }

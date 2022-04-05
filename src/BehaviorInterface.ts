@@ -1,6 +1,6 @@
 import { AbilityData, AbilityInput } from './Ability';
 import { Behavior } from './Behavior';
-import { Entity } from './Entity';
+import { Entity, EntityData } from './Entity';
 import { Item, ItemData } from './Item';
 
 class BehaviorInterface<E extends Entity> {
@@ -110,6 +110,10 @@ class BehaviorInterface<E extends Entity> {
             return ability.softUse(data);
 
         else return false;
+    }
+
+    entityData(): EntityData<E> {
+        return this.entity.data();
     }
 }
 
