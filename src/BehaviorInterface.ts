@@ -4,7 +4,7 @@ import { Entity } from './Entity';
 import { Item, ItemData } from './Item';
 
 class BehaviorInterface<E extends Entity> {
-    entity: E;
+    protected entity: E;
     behavior?: Behavior<E>;
 
     constructor(entity: E, behavior?: Behavior<E>){
