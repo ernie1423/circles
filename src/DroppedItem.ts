@@ -6,6 +6,14 @@ import { Layer } from './Layer';
  * Сущность, отражающая отдельный предмет.
  */
 class DroppedItem<I extends Item> extends Entity {
+
+    /**
+     * Наименование вида
+     * * может помочь клиенту визуализировать отдельные предметы по-разному
+     * * может помочь ИИ распознавать предметы легче
+     */
+    readonly name: string = 'dropped-item';
+
     health: {
         current: number
         max?: number,

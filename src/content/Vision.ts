@@ -4,6 +4,7 @@ import { Entity } from '../Entity';
 
 interface PartialEntityData {
     id: string;
+    name: string;
     position: {
         x: number,
         y: number
@@ -11,6 +12,8 @@ interface PartialEntityData {
 }
 
 class Vision extends Ability {
+    name: string = 'vision'
+
     state: Ability['state'] & {
         sight: PartialEntityData[]
     }
@@ -37,6 +40,7 @@ class Vision extends Ability {
 
         return {
             id: entity.id,
+            name: entity.name,
             position: {
                 x: pos.x,
                 y: pos.y

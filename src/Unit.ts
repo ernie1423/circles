@@ -3,6 +3,8 @@ import { Inventory } from './Inventory';
 import { Layer } from './Layer';
 
 class Unit extends Entity {
+    readonly name: string = 'unit';
+
     health: {
         current: number,
         max: number

@@ -24,12 +24,20 @@ interface EntityData<E extends Entity> {
     attributes: {[key in keyof E['attributes']]: AttributeData};
     state: E['state'];
     control: E['control'];
+    name: E['name'];
 }
 
 /**
  * Обладает позицией и может взаимодействовать с другими сущностями.
  */
 class Entity {
+
+    /**
+     * Наименование вида
+     * * может помочь клиенту визуализировать отдельных сущностей по-разному
+     * * может помочь ИИ распознавать сущностей легче
+     */
+    readonly name: string = 'entity';
 
     /**
      * В каком слое находится
@@ -239,7 +247,8 @@ class Entity {
                 x: a.position.x,
                 y: a.position.y
             },
-            state: this.state
+            state: this.state,
+            name: this.name
         }
     }
 }
