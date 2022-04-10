@@ -1,0 +1,22 @@
+{
+    "name": "circles",
+    "version": "1.0.0",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ernie1423/circles.git"
+    },
+    "author": "ernie1423",
+    "bugs": {
+        "url": "https://github.com/ernie1423/circles/issues"
+    },
+    "dependencies": {
+        "ws": "8.5.0"
+    },
+    "devDependencies": {
+        "typescript": "4.6.3",
+        "@types/ws": "8.5.3"
+    }
+}
