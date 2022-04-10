@@ -3,7 +3,8 @@ import { Attribute, AttributeData } from './Attribute';
 import { Behavior } from './Behavior';
 import { BehaviorInterface } from './BehaviorInterface';
 import { Effect, EffectData } from './Effect';
-import { Equipped, Inventory } from './Inventory';
+import { Inventory } from './Inventory';
+import { Equipped } from './Equipped';
 import { ItemData } from './Item';
 import { Layer } from './Layer';
 import { Vector, clamp, id } from './utils';
@@ -23,7 +24,7 @@ interface EntityData<E extends Entity> {
     effects: EffectData[];
     attributes: {[key in keyof E['attributes']]: AttributeData};
     state: E['state'];
-    control: E['control'];
+    control: E['equipped'] extends Equipped ?  E['equipped']['control'] : null;
     name: E['name'];
 }
 
@@ -108,13 +109,6 @@ class Entity {
     state: {
 
     }
-
-    /**
-     * Очки контроля
-     * 
-     * * используются для экипировки предметов
-     */
-    control?: {[key: string]: {current: number, max: number}};
 
     /**
      * Инвентарь для экипированных предметов
@@ -237,7 +231,7 @@ class Entity {
             attributes: atrDatas,
             charge: this.charge,
             health: this.health,
-            control: this.control,
+            control: ( (this.equipped) ? this.equipped.control : null ) as EntityData<this>['control'],
             effects: this.effects.map(ef => ef.data()),
             id: this.id,
             items: this.inventory?.items.map(it => it.data()),
