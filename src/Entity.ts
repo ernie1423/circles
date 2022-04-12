@@ -220,11 +220,15 @@ class Entity {
     data(): EntityData<this> {
         let a = this;
 
-        let atrDatas: EntityData<this>['attributes'] = 
-            Object.fromEntries(
-                Object.entries(this.attributes)
-                .map(([name, attr]) => ([name, attr.data()]))
-            ) as EntityData<this>['attributes'];
+        let atrDatas: EntityData<this>['attributes'] = (() => {
+            let x: { [key in keyof this['attributes']]?: AttributeData } = {};
+            
+            Object.entries(this.attributes).forEach(([name, attribute]) => {
+                x[name as keyof this['attributes']] = attribute.data();
+            })
+
+            return x as EntityData<this>['attributes'];
+        })();
 
         return {
             abilities: this.abilities.map(ab => ab.data()),

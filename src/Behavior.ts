@@ -12,6 +12,7 @@ class Behavior<E extends Entity> {
     
     constructor(behaviorInterface: BehaviorInterface<E>){
         this.behaviorInterface = behaviorInterface;
+        behaviorInterface.setBehavior(this);
     }
 
     /**
