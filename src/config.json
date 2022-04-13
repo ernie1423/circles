@@ -1,3 +1,6 @@
 {
-    "clientPath": "./../client"
+    "clientPath": "./../client",
+    "httpPort": 3000,
+    "wsPort": 3001,
+    "tps": 60
 }

@@ -4,10 +4,11 @@ import { Unit } from '../Unit';
 import { PlayerBehavior } from '../content/PlayerBehavior';
 import { Vision } from '../content/Vision';
 import { Entity } from '../Entity';
+import { wsPort, tps } from './../config.json';
 
 const layer = new Layer();
 
-const server = new WebSocketServer({ port: 3000 });
+const server = new WebSocketServer({ port: wsPort });
 
 new Entity(0, 50, layer);
 
@@ -19,4 +20,4 @@ server.on('connection', (socket) => {
 
 setInterval(() => {
     layer.update();
-}, 1000/60);
+}, 1000/tps);

@@ -1,5 +1,5 @@
 import express from 'express';
-import { clientPath } from './../../config.json';
+import { clientPath, httpPort } from './../../config.json';
 import { resolve } from 'path';
 
 let server = express();
@@ -12,6 +12,6 @@ server.use(express.static(
     )
 ))
 
-server.listen(3001, () => {
-    console.log('Server is running on port 3001');
+server.listen(httpPort, () => {
+    console.log(`Server is running on port ${httpPort}`);
 })
