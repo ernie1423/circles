@@ -1,12 +1,16 @@
 import express from 'express';
+import { clientPath } from './../../config.json';
+import { resolve } from 'path';
 
 let server = express();
 
-express.static('client');
-
-server.get('/', (req, res) => {
-    res.sendFile(`${__dirname}/client/index.html`);
-})
+server.use(express.static(
+    resolve(
+        __dirname,
+        './../../',
+        clientPath
+    )
+))
 
 server.listen(3001, () => {
     console.log('Server is running on port 3001');
