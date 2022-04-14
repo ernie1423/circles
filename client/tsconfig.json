@@ -2,18 +2,11 @@
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
-    "rootDir": "./src",
-    "outDir": "build",
+    "rootDir": "./ts",
+    "outDir": "js",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": true
-  },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "client",
-    "build"
-  ]
+    "strict": true,
+  }
 }

@@ -34,6 +34,7 @@ interface ItemData<I extends Item = Item> {
     state: I['state'];
     settings: I['settings'];
     durability: I['durability'];
+    name: I['name'];
 }
 
 class Item {
@@ -128,7 +129,8 @@ class Item {
             charge: this.charge,
             state: this.state,
             settings: this.settings,
-            durability: this.durability
+            durability: this.durability,
+            name: this.name
         }
     }
 

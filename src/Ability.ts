@@ -8,7 +8,10 @@ interface AbilityInput {
     /**
      * Местность
      */
-    position?: Vector,
+    position?: {
+        x: number,
+        y: number
+    },
 
     /**
      * Идентификатор сущности
@@ -28,6 +31,7 @@ interface AbilityInput {
 
 interface AbilityData<A extends Ability = Ability> {
     id: string,
+    name: A['name'],
     charge: A['charge'],
     settings: A['settings'],
     state: A['state']
@@ -72,7 +76,7 @@ class Ability {
     /**
      * Состояние способности
      */
-    state: {
+    state: { [key: string]: any } & {
         usable: boolean
     }
 
@@ -96,7 +100,8 @@ class Ability {
             state: this.state,
             settings: this.settings,
             charge: this.charge,
-            id: this.id
+            id: this.id,
+            name: this.name
         }
     }
 
