@@ -6,6 +6,8 @@ import { Vector } from '../utils';
 const { cos, sin } = Math;
 
 class Movement extends Ability {
+    name: string = 'movement';
+
     attributes: {
         speed: Attribute
     }

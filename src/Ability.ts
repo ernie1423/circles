@@ -1,3 +1,4 @@
+import { Attribute, AttributeData } from './Attribute';
 import { Entity } from './Entity';
 import { id, Vector } from './utils';
 
@@ -34,7 +35,10 @@ interface AbilityData<A extends Ability = Ability> {
     name: A['name'],
     charge: A['charge'],
     settings: A['settings'],
-    state: A['state']
+    state: A['state'],
+    attributes: {
+        [key in keyof A['attributes']]: AttributeData
+    }
 }
 
 /**
@@ -80,6 +84,10 @@ class Ability {
         usable: boolean
     }
 
+    attributes: {
+        [name: string]: Attribute;
+    }
+
     constructor(entity: Entity){
         this.entity = entity;
 
@@ -87,6 +95,8 @@ class Ability {
         this.state = {
             usable: true
         };
+
+        this.attributes = {};
 
         this.id = id();
     }
@@ -96,12 +106,24 @@ class Ability {
     }
 
     data(): AbilityData<this> {
+
+        let atrDatas: AbilityData<this>['attributes'] = (() => {
+            let x: { [key in keyof this['attributes']]?: AttributeData } = {};
+            
+            Object.entries(this.attributes).forEach(([name, attribute]) => {
+                x[name as keyof this['attributes']] = attribute.data();
+            })
+
+            return x as AbilityData<this>['attributes'];
+        })();
+
         return {
             state: this.state,
             settings: this.settings,
             charge: this.charge,
             id: this.id,
-            name: this.name
+            name: this.name,
+            attributes: atrDatas
         }
     }
 

@@ -9,7 +9,10 @@ server.use(express.static(
         __dirname,
         './../../',
         clientPath
-    )
+    ),
+    {
+        extensions: ['js', 'css', 'html']
+    }
 ))
 
 server.listen(httpPort, () => {

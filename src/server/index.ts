@@ -21,6 +21,7 @@ server.on('connection', (socket) => {
     let u = new Unit(0, 0, layer);
         u.abilities.push(new Vision(u, 420));
         u.abilities.push(new Pointer(u));
+        u.abilities.push(new Movement(u, 5));
     new PlayerBehavior(socket, u.behaviorInterface);
 
     socket.on('close', () => {
