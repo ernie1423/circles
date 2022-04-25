@@ -54,7 +54,7 @@ setInterval(() => {
         if(keyboard.pressed['KeyD'])
             movementVector.x += speed * 3;
 
-        if(movementAbility){
+        if(movementAbility && !(movementVector.x == 0 && movementVector.y == 0)){
             movementAbility.use({
                 position: {
                     vector: movementVector,

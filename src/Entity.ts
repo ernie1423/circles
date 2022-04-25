@@ -8,6 +8,7 @@ import { Equipped } from './Equipped';
 import { ItemData } from './Item';
 import { Layer } from './Layer';
 import { Vector, clamp, id } from './utils';
+import { Circle, EntityBodies } from './EntityBody';
 
 interface EntityData<E extends Entity> {
     layer: E['layer']['id'];
@@ -115,6 +116,8 @@ class Entity {
      */
     equipped?: Equipped;
 
+    body?: EntityBodies;
+
     /**
      * 
      * @param x Координата сущности
@@ -136,6 +139,8 @@ class Entity {
 
         this.id = id();
         this.state = {};
+
+        this.body = new Circle(this.position, 10);
 
         this.behaviorInterface = new BehaviorInterface(this);
     }
