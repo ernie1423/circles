@@ -4,7 +4,7 @@ import { resolve } from 'path';
 
 let server = express();
 
-server.use(express.static(
+server.use('/client', express.static(
     resolve(
         __dirname,
         './../../',
@@ -12,6 +12,16 @@ server.use(express.static(
     ),
     {
         extensions: ['js', 'css', 'html']
+    }
+))
+
+server.use('/content', express.static(
+    resolve(
+        __dirname,
+        './../../content'
+    ),
+    {
+        extensions: ['json', 'svg']
     }
 ))
 

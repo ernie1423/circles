@@ -1,5 +1,5 @@
 import { Attribute, AttributeData } from './Attribute';
-import { Entity } from './Entity';
+import { Entity, EntityData } from './Entity';
 import { id, Vector } from './utils';
 
 /**
@@ -81,7 +81,8 @@ class Ability {
      * Состояние способности
      */
     state: { [key: string]: any } & {
-        usable: boolean
+        usable: boolean,
+        sight?: EntityData<Entity>[]
     }
 
     attributes: {

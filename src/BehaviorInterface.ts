@@ -80,7 +80,7 @@ class BehaviorInterface<E extends Entity> {
     /**
      * Получить данные способностей, имеющихся у сущности.
      */
-    getAbilites(): AbilityData[] {
+    getAbilities(): AbilityData[] {
         return this.entity.abilities.map(ability => ability.data());
     }
 

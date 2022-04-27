@@ -1,4 +1,4 @@
-import { Entity } from './Entity';
+import { Entity, EntityType } from './Entity';
 import { Inventory } from './Inventory';
 import { Layer } from './Layer';
 
@@ -16,6 +16,8 @@ class Unit extends Entity {
     }
 
     inventory: Inventory;
+
+    type: EntityType.Unit;
     
     constructor(x: number, y: number, layer: Layer) {
         super(x, y, layer);
@@ -31,6 +33,8 @@ class Unit extends Entity {
         }
 
         this.inventory = new Inventory(this);
+
+        this.type = EntityType.Unit;
     }
 }
 

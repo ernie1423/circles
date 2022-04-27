@@ -9,8 +9,16 @@ import { ItemData } from './Item';
 import { Layer } from './Layer';
 import { Vector, clamp, id } from './utils';
 import { Circle, EntityBodies } from './EntityBody';
+import { Team } from './Team';
 
-interface EntityData<E extends Entity> {
+enum EntityType {
+    Other = 0,
+    Unit = 1,
+    Item = 2,
+    Projectile = 3
+}
+
+interface EntityData<E extends Entity = Entity> {
     layer: E['layer']['id'];
     id: string,
     position: {
@@ -27,6 +35,7 @@ interface EntityData<E extends Entity> {
     state: E['state'];
     control: E['equipped'] extends Equipped ?  E['equipped']['control'] : null;
     name: E['name'];
+    type: EntityType
 }
 
 /**
@@ -118,6 +127,10 @@ class Entity {
 
     body?: EntityBodies;
 
+    team: Team;
+
+    type: EntityType;
+
     /**
      * 
      * @param x Координата сущности
@@ -143,6 +156,10 @@ class Entity {
         this.body = new Circle(this.position, 10);
 
         this.behaviorInterface = new BehaviorInterface(this);
+
+        this.team = new Team([this]);
+
+        this.type = EntityType.Other;
     }
 
     updateAbilities(){
@@ -251,12 +268,14 @@ class Entity {
                 y: a.position.y
             },
             state: this.state,
-            name: this.name
+            name: this.name,
+            type: this.type
         }
     }
 }
 
 export {
     Entity,
-    EntityData
+    EntityData,
+    EntityType
 }

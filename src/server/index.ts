@@ -5,8 +5,9 @@ import { PlayerBehavior } from '../content/PlayerBehavior';
 import { Vision } from '../content/Vision';
 import { Entity } from '../Entity';
 import { wsPort, tps } from './../config.json';
-import { Pointer } from '../content/Pointer';
+import { Target } from '../content/Target';
 import { Movement } from '../content/Movement';
+import { Blaster } from '../content/Blaster';
 
 const layer = new Layer();
 
@@ -15,13 +16,14 @@ const server = new WebSocketServer({ port: wsPort });
 let e = new Entity(0, 50, layer);
     e.abilities.push(new Movement(e, 10));
 
-new Entity(120, 0, layer);
+new Target(300, 0, layer);
     
 server.on('connection', (socket) => {
     let u = new Unit(0, 0, layer);
         u.abilities.push(new Vision(u, 420));
-        u.abilities.push(new Pointer(u));
         u.abilities.push(new Movement(u, 5));
+        u.abilities.push(new Blaster(u));
+        
     new PlayerBehavior(socket, u.behaviorInterface);
 
     socket.on('close', () => {

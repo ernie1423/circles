@@ -54,7 +54,7 @@ class Socket {
                     }
                 })
 
-                this.entities.filter(entity => datas?.includes(entity)).forEach(entity => {
+                this.entities.filter(entity => !datas?.find(eData => eData.id == entity.id)).forEach(entity => {
                     entity.beingRemoved = true;
                 })
             }

@@ -31,6 +31,11 @@ setInterval(() => {
     keyboard.update();
     cursor.update();
 
+    socket.entities.forEach((entity, i) => {
+        if(entity.beingRemoved)
+            socket.entities.splice(i, 1);
+    })
+
     if(socket.controlled){
         cameraPosition.set(
             socket.controlled.position.x,
@@ -61,6 +66,20 @@ setInterval(() => {
                     relative: true
                 }
             }, socket);
+        }
+
+
+        let blasterAbility = socket.controlled.abilities?.find(ability => ability.name == 'blaster');
+        
+        if(cursor.pressed.left){
+            if(blasterAbility){
+                blasterAbility.use({
+                    position: {
+                        vector: cursor.toWorld(cameraPosition),
+                        relative: false
+                    }
+                }, socket)
+            }
         }
     }
 
