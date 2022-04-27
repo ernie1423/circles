@@ -23,7 +23,7 @@ class DroppedItem<I extends Item> extends Entity {
     
     item: I;
 
-    state: I["state"];
+    state: I["state"] & Entity["state"];
 
     constructor(x: number, y: number, layer: Layer, item: I){
         super(x, y, layer);

@@ -118,7 +118,10 @@ class Entity {
      * "Индикаторы" сущности
      */
     state: {
-
+        progress?: {
+            max: number,
+            current: number
+        }
     }
 
     /**
