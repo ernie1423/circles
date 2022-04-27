@@ -1,4 +1,4 @@
-import { Ability, AbilityInput } from '../Ability';
+import { Ability, Input } from '../Ability';
 import { Attribute } from '../Attribute';
 import { Entity, EntityType } from '../Entity';
 import { Circle } from '../EntityBody';
@@ -42,7 +42,7 @@ class Blaster extends Ability {
             this.charge.current++;
     }
 
-    use(data: AbilityInput){
+    use(data: Input){
         if(this.charge.current !== this.charge.max) return;
         if(data.position == undefined) return;
 

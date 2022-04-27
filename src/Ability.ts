@@ -5,7 +5,7 @@ import { id, Vector } from './utils';
 /**
  * Входные данные способности
  */
-interface AbilityInput {
+interface Input {
     /**
      * Местность
      */
@@ -133,7 +133,7 @@ class Ability {
      * 
      * @param data Входные параметры способности
      */
-    softUse(data: AbilityInput): boolean {
+    softUse(data: Input): boolean {
         if(this.state.usable){
             this.use(data);
             
@@ -142,7 +142,7 @@ class Ability {
         else return false;
     }
 
-    use(data: AbilityInput){
+    use(data: Input){
 
     }
 
@@ -157,5 +157,5 @@ class Ability {
 export {
     Ability,
     AbilityData,
-    AbilityInput
+    Input
 }

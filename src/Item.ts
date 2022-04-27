@@ -2,28 +2,7 @@ import { DroppedItem } from './DroppedItem';
 import { Entity } from './Entity';
 import { Layer } from './Layer';
 import { id, Vector } from './utils';
-
-interface ItemInput {
-    /**
-     * Местность
-     */
-    position?: Vector,
-
-    /**
-     * Идентификатор сущности
-     */
-    entity?: string,
-
-    /**
-     * Идентификатор способности
-     */
-    ability?: string,
-
-    /**
-     * Идентификатор эффекта
-     */
-    effect?: string
-}
+import { Input } from './Ability';
 
 interface ItemData<I extends Item = Item> {
     id: string;
@@ -139,7 +118,7 @@ class Item {
      * 
      * @param data Входные данные предмета
      */
-    softUse(data: ItemInput): boolean {
+    softUse(data: Input): boolean {
         if(this.state.usable){
             this.use(data);
 
@@ -148,7 +127,7 @@ class Item {
         else return false;
     }
 
-    use(data: ItemInput){
+    use(data: Input){
         
     }
 
@@ -200,5 +179,5 @@ class Item {
 export {
     Item,
     ItemData,
-    ItemInput
+    Input as ItemInput
 }

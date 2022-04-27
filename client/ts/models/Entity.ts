@@ -37,6 +37,13 @@ class CircleBody implements CircleData {
 type EntityBodies = CircleBody;
 type EntityBodiesData = CircleData;
 
+enum EntityType {
+    Other = 0,
+    Unit = 1,
+    Item = 2,
+    Projectile = 3
+}
+
 interface EntityData {
     id: string;
     name: string;
@@ -45,7 +52,8 @@ interface EntityData {
         y: number;
     }
     abilities?: AbilityData[]
-    body?: EntityBodiesData
+    body?: EntityBodiesData,
+    type: EntityType
 }
 
 class Entity {
@@ -54,6 +62,7 @@ class Entity {
     position: Vector;
     abilities?: Ability[];
     body?: EntityBodies;
+    type: EntityType
 
     beingRemoved: boolean;
 
@@ -76,6 +85,8 @@ class Entity {
                     this.body = new CircleBody(entityData.body);
             }
         }
+
+        this.type = entityData.type;
     }
 
     update(newEntityData: EntityData){

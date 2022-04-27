@@ -1,4 +1,4 @@
-import { Ability, AbilityInput } from '../Ability';
+import { Ability, Input } from '../Ability';
 import { Attribute } from '../Attribute';
 import { Entity } from '../Entity';
 import { Vector } from '../utils';
@@ -20,7 +20,7 @@ class Movement extends Ability {
         }
     }
 
-    use(data: AbilityInput){
+    use(data: Input){
         if(data.position){
             let from = this.entity.position.clone();
             let to = new Vector(data.position.x, data.position.y);

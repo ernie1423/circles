@@ -1,4 +1,4 @@
-import { Ability, AbilityInput } from '../Ability';
+import { Ability, Input } from '../Ability';
 import { Entity } from '../Entity';
 import { Vector } from '../utils';
 
@@ -15,7 +15,7 @@ class Pointer extends Ability {
         this.name = 'pointer';
     }
 
-    use(data: AbilityInput){
+    use(data: Input){
         if(data.position){
             this.controlled.position = new Vector(data.position.x, data.position.y);
         }

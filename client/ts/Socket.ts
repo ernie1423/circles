@@ -1,14 +1,43 @@
-import { AbilityInput, AbilityInputData } from "./models/Ability";
+import { Input, InputData } from "./models/Ability";
 import { Entity, EntityData } from "./models/Entity";
+
+enum PayloadType {
+    Info = 1, // incoming
+    Use = 2, // outgoing
+    Interact = 3 // outgoing
+}
+
+/*
+ * Outgoing payloads
+ */
+
+interface OutgoingPayload {
+    type: PayloadType.Use | PayloadType.Interact,
+    data: any
+} 
 
 interface Use {
     id: string;
-    data: AbilityInputData
-} 
-
-interface OutgoingData {
-    uses: Use[];
+    data: InputData;
 }
+
+interface UsePayload extends OutgoingPayload {
+    type: PayloadType.Use,
+    data: {
+        abilities?: Use[],
+        items?: Use[]
+    }
+}
+
+interface InteractPayload extends OutgoingPayload {
+    type: PayloadType.Interact,
+    data: {
+        id: string,
+        data?: any
+    }
+}
+
+type OutgoingPayloads = UsePayload | InteractPayload;
 
 class Socket {
     inner!: WebSocket;
@@ -61,7 +90,7 @@ class Socket {
         })
     }
 
-    send(data: OutgoingData){
+    send(data: OutgoingPayloads){
         this.inner.send(
             JSON.stringify(
                 data
@@ -69,32 +98,38 @@ class Socket {
         )
     }
 
-    useAbility(id: string, data: AbilityInputData){
+    useAbility(id: string, data: InputData){
 
         this.send({
-            uses: [{
-                id: id,
-                data: {
-                    position: data.position
-                }
-            }]
+            type: PayloadType.Use,
+            data: {
+                abilities: [{
+                    id: id,
+                    data: {
+                        position: data.position
+                    }
+                }]
+            }
         });
     }
 
-    useAbilities(...abilities: [string, AbilityInputData][]){
+    useAbilities(...abilities: [string, InputData][]){
         this.send({
-            uses: abilities.map(
-                ([id, data]) => ({
-                    id: id,
-                    data: data
-                })
-            ) as Use[]
+            type: PayloadType.Use,
+            data: {
+                abilities: abilities.map(
+                    ([id, data]) => ({
+                        id: id,
+                        data: data
+                    })
+                ) as Use[]
+            }
         });
     }
 }
 
 export {
     Socket,
-    OutgoingData,
+    OutgoingPayloads,
     Use
 }

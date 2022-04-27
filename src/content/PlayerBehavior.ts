@@ -1,49 +1,91 @@
 import WebSocket from 'ws';
-import { AbilityInput } from '../Ability';
+import { Input } from '../Ability';
 import { Behavior } from '../Behavior';
 import { BehaviorInterface } from '../BehaviorInterface';
 import { Unit } from '../Unit';
 
-interface Use {
-    id: string;
-    data: AbilityInput;
+
+enum PayloadType {
+    Info = 1, // outgoing
+    Use = 2, // incoming
+    Interact = 3 // incoming
 }
 
-interface IncomingData {
-    uses?: Use[];
+/*
+ * Incoming payloads
+ */
+
+interface IncomingPayload {
+    type: PayloadType.Use | PayloadType.Interact,
+    data: any
 } 
 
-let i = 0;
+interface Use {
+    id: string;
+    data: Input;
+}
+
+interface UsePayload extends IncomingPayload {
+    type: PayloadType.Use,
+    data: {
+        abilities?: Use[],
+        items?: Use[]
+    }
+}
+
+interface InteractPayload extends IncomingPayload {
+    type: PayloadType.Interact,
+    data: {
+        id: string,
+        data?: any
+    }
+}
+
+type IncomingPayloads = UsePayload | InteractPayload;
 
 class PlayerBehavior<E extends Unit = Unit> extends Behavior<E> {
     socket: WebSocket;
-    useCalls: Use[];
+    AbilityUseCalls: Use[];
+    ItemUseCalls: Use[];
 
     constructor(socket: WebSocket, behaviorInterface: BehaviorInterface<E>) {
         super(behaviorInterface);
         
         this.socket = socket;
 
-        this.useCalls = [];
+        this.AbilityUseCalls = [];
+        this.ItemUseCalls = [];
 
         socket.on('message', (msg, isBinary) => {
-            let data: IncomingData = JSON.parse(msg.toString()) as IncomingData;
+            let payload: IncomingPayloads = JSON.parse(msg.toString()) as IncomingPayloads;
 
-            if(data.uses){
-                data.uses.forEach(newcall => {
-                    if(!this.useCalls.find(call => call.id == newcall.id)){
-                        this.useCalls.push(newcall);
-                    }
-                });
-            }
+            if(payload.type == PayloadType.Use)
+                if(payload.data){
+                    payload.data.abilities?.forEach((newcall: Use) => {
+                        if(!this.AbilityUseCalls.find(call => call.id == newcall.id)){
+                            this.AbilityUseCalls.push(newcall);
+                        }
+                    });
+
+                    payload.data.items?.forEach((newcall: Use) => {
+                        if(!this.ItemUseCalls.find(call => call.id == newcall.id)){
+                            this.ItemUseCalls.push(newcall);
+                        }
+                    });
+                }
         })
     }
 
     update(){
-        this.useCalls.forEach(call => {
+        this.AbilityUseCalls.forEach(call => {
             this.behaviorInterface.useAbility(call.id, call.data);
         });
-        this.useCalls = [];
+        this.AbilityUseCalls = [];
+
+        this.ItemUseCalls.forEach(call => {
+            this.behaviorInterface.useItem(call.id, call.data);
+        });
+        this.ItemUseCalls = [];
 
         this.socket.send(JSON.stringify(
             this.behaviorInterface.entityData()

@@ -2,14 +2,14 @@ import { Socket } from '../Socket';
 import { Vector } from '../utils';
 import { Entity, EntityData } from './Entity';
 
-interface AbilityInputData {
+interface InputData {
     position?: {
         x: number,
         y: number
     }
 }
 
-interface AbilityInput {
+interface Input {
     position?: {
         relative: boolean;
         vector: Vector;
@@ -65,8 +65,8 @@ class Ability {
         this.entity = entity;
     }
 
-    use({ position }: AbilityInput, socket: Socket){
-        let newData: Partial<AbilityInputData> = {};
+    use({ position }: Input, socket: Socket){
+        let newData: Partial<InputData> = {};
 
         let { position: EPosition } = this.entity
 
@@ -76,7 +76,7 @@ class Ability {
                 : position.vector.toJSONable()
         : undefined
 
-        socket.useAbility(this.id, newData as AbilityInputData);
+        socket.useAbility(this.id, newData as InputData);
     }
 
     update({ id, name, charge, state }: AbilityData){
@@ -116,6 +116,6 @@ class Ability {
 export {
     AbilityData,
     Ability,
-    AbilityInputData,
-    AbilityInput
+    InputData,
+    Input
 }

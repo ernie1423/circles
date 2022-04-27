@@ -1,6 +1,6 @@
 import { Ability } from '../Ability';
 import { Attribute } from '../Attribute';
-import { Entity } from '../Entity';
+import { Entity, EntityType } from '../Entity';
 import { EntityBodiesData } from '../EntityBody';
 
 interface PartialEntityData {
@@ -10,7 +10,8 @@ interface PartialEntityData {
         x: number,
         y: number
     },
-    body?: EntityBodiesData
+    body?: EntityBodiesData,
+    type: EntityType
 }
 
 class Vision extends Ability {
@@ -47,7 +48,8 @@ class Vision extends Ability {
                 x: pos.x,
                 y: pos.y
             },
-            body: entity.body?.data()
+            body: entity.body?.data(),
+            type: entity.type
         }
     }
 

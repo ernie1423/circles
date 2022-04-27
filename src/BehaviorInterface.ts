@@ -1,4 +1,4 @@
-import { AbilityData, AbilityInput } from './Ability';
+import { AbilityData, Input } from './Ability';
 import { Behavior } from './Behavior';
 import { EffectData } from './Effect';
 import { Entity, EntityData } from './Entity';
@@ -65,7 +65,7 @@ class BehaviorInterface<E extends Entity> {
      * @param id Идентификатор используемого предмета
      * @param data Входные данные для предмета
      */
-    useItem<I extends Item = Item>(id: string, data: Parameters<I['use']>[0]): boolean {
+    useItem<I extends Item = Item>(id: string, data: Input): boolean {
         if(this.entity.equipped !== undefined){
             let item = this.entity.equipped.items.find(item => item.id == id);
 
@@ -104,7 +104,7 @@ class BehaviorInterface<E extends Entity> {
      * @param id Идентификатор способности
      * @param data Входные данные для способности
      */
-    useAbility(id: string, data: AbilityInput): boolean {
+    useAbility(id: string, data: Input): boolean {
         let ability = this.entity.abilities.find(ability => ability.id == id);
 
         if(ability)
