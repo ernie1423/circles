@@ -96,7 +96,7 @@ setInterval(() => {
                 ctx.arc(
                     canvas.width / 2,
                     canvas.height / 2,
-                    10,
+                    (socket.controlled.body) ? socket.controlled.body.radius : 10,
                     0,
                     Math.PI*2
                 );
@@ -110,7 +110,7 @@ setInterval(() => {
                 ctx.arc(
                     canvas.width / 2 - cameraPosition.x + position.x,
                     canvas.height / 2 - cameraPosition.y + position.y,
-                    10,
+                    e.body ? e.body.radius : 10,
                     0,
                     Math.PI*2
                 );

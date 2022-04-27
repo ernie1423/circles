@@ -8,7 +8,7 @@ import { Equipped } from './Equipped';
 import { ItemData } from './Item';
 import { Layer } from './Layer';
 import { Vector, clamp, id } from './utils';
-import { Circle, EntityBodies } from './EntityBody';
+import { Circle, EntityBodies, EntityBodiesData } from './EntityBody';
 import { Team } from './Team';
 
 enum EntityType {
@@ -35,7 +35,8 @@ interface EntityData<E extends Entity = Entity> {
     state: E['state'];
     control: E['equipped'] extends Equipped ?  E['equipped']['control'] : null;
     name: E['name'];
-    type: EntityType
+    type: EntityType;
+    body?: EntityBodiesData;
 }
 
 /**
@@ -269,7 +270,8 @@ class Entity {
             },
             state: this.state,
             name: this.name,
-            type: this.type
+            type: this.type,
+            body: this.body?.data()
         }
     }
 }

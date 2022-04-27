@@ -1,22 +1,30 @@
 import { Vector } from "./utils";
 
 enum EntityBodyType {
-    circle = 0
+    Other = 0,
+    Circle = 1
 }
 
-interface EntityBody {
+interface EntityBodyData {
     name: EntityBodyType
-    position: Vector
-    intersects: (body: any) => boolean
+    position: {
+        x: number,
+        y: number
+    }
 }
 
-class Circle implements EntityBody {
-    name: EntityBodyType.circle;
+interface CircleData extends EntityBodyData {
+    name: EntityBodyType.Circle,
+    radius: number
+}
+
+class Circle implements CircleData {
+    name: EntityBodyType.Circle;
     position: Vector;
     radius: number;
 
     constructor(position: Vector, radius: number){
-        this.name = EntityBodyType.circle;
+        this.name = EntityBodyType.Circle;
 
         this.position = position;
         this.radius = radius;
@@ -25,13 +33,26 @@ class Circle implements EntityBody {
     intersects(body: Circle): boolean {
         return this.position.distance(body.position) <= (this.radius + body.radius);
     }
+
+    data(): CircleData {
+        return {
+            name: this.name,
+            radius: this.radius,
+            position: {
+                x: this.position.x,
+                y: this.position.y
+            }
+        }
+    }
 }
 
 type EntityBodies = Circle;
 
+type EntityBodiesData = CircleData;
+
 export {
     EntityBodyType,
-    EntityBody,
     Circle,
-    EntityBodies
+    EntityBodies,
+    EntityBodiesData
 }

@@ -1,6 +1,7 @@
 import { Ability, AbilityInput } from '../Ability';
 import { Attribute } from '../Attribute';
 import { Entity, EntityType } from '../Entity';
+import { Circle } from '../EntityBody';
 import { Vector } from '../utils';
 import { ConstantMovement } from './ConstantMovement';
 import { DieOnTouch } from './DieOnTouch';
@@ -66,6 +67,8 @@ class Blaster extends Ability {
             max: this.attributes.projectileLifespan.value,
             current: this.attributes.projectileLifespan.value
         }
+
+        projectile.body = new Circle(projectile.position, 15);
 
         projectile.abilities.push(
             new ConstantMovement(projectile, this.attributes.projectileSpeed.value, angle),

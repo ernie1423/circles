@@ -1,6 +1,42 @@
 import { Vector } from '../utils';
 import { Ability, AbilityData } from './Ability';
 
+enum EntityBodyType {
+    Other = 0,
+    Circle = 1
+}
+
+interface EntityBodyData {
+    name: EntityBodyType
+    position: {
+        x: number,
+        y: number
+    }
+}
+
+interface CircleData extends EntityBodyData {
+    name: EntityBodyType.Circle,
+    radius: number
+}
+
+class CircleBody implements CircleData {
+    name: EntityBodyType.Circle;
+    position: Vector;
+    radius: number;
+
+    constructor({name, position, radius}: CircleData){
+        this.name = name;
+        this.position = new Vector(
+            position.x,
+            position.y
+        );
+        this.radius = radius;
+    }
+}
+
+type EntityBodies = CircleBody;
+type EntityBodiesData = CircleData;
+
 interface EntityData {
     id: string;
     name: string;
@@ -9,6 +45,7 @@ interface EntityData {
         y: number;
     }
     abilities?: AbilityData[]
+    body?: EntityBodiesData
 }
 
 class Entity {
@@ -16,6 +53,7 @@ class Entity {
     name: string;
     position: Vector;
     abilities?: Ability[];
+    body?: EntityBodies;
 
     beingRemoved: boolean;
 
@@ -31,6 +69,13 @@ class Entity {
         this.beingRemoved = false;
 
         this.abilities = entityData.abilities?.map(rawAbility => new Ability(rawAbility, this));
+
+        if(entityData.body){
+            switch(entityData.body.name){
+                case EntityBodyType.Circle:
+                    this.body = new CircleBody(entityData.body);
+            }
+        }
     }
 
     update(newEntityData: EntityData){
