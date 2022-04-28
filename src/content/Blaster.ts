@@ -68,7 +68,7 @@ class Blaster extends Ability {
             current: this.attributes.projectileLifespan.value
         }
 
-        projectile.body = new Circle(projectile.position, 15);
+        projectile.body = new Circle(projectile.position, 7);
 
         projectile.abilities.push(
             new ConstantMovement(projectile, this.attributes.projectileSpeed.value, angle),
