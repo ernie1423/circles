@@ -8,7 +8,8 @@ import { Unit } from '../Unit';
 enum PayloadType {
     Info = 1, // outgoing
     Use = 2, // incoming
-    Interact = 3 // incoming
+    Interact = 3, // incoming
+    Equip = 4 // incoming
 }
 
 /*
@@ -16,7 +17,7 @@ enum PayloadType {
  */
 
 interface IncomingPayload {
-    type: PayloadType.Use | PayloadType.Interact,
+    type: PayloadType.Use | PayloadType.Interact | PayloadType.Equip,
     data: any
 } 
 
@@ -41,7 +42,12 @@ interface InteractPayload extends IncomingPayload {
     }
 }
 
-type IncomingPayloads = UsePayload | InteractPayload;
+interface EquipPayload extends IncomingPayload {
+    type: PayloadType.Equip,
+    data: string[],
+}
+
+type IncomingPayloads = UsePayload | InteractPayload | EquipPayload;
 
 class PlayerBehavior<E extends Unit = Unit> extends Behavior<E> {
     socket: WebSocket;
@@ -59,20 +65,26 @@ class PlayerBehavior<E extends Unit = Unit> extends Behavior<E> {
         socket.on('message', (msg, isBinary) => {
             let payload: IncomingPayloads = JSON.parse(msg.toString()) as IncomingPayloads;
 
-            if(payload.type == PayloadType.Use)
-                if(payload.data){
-                    payload.data.abilities?.forEach((newcall: Use) => {
-                        if(!this.AbilityUseCalls.find(call => call.id == newcall.id)){
-                            this.AbilityUseCalls.push(newcall);
-                        }
-                    });
+            if(payload.type == PayloadType.Use){
+                payload.data.abilities?.forEach((newcall: Use) => {
+                    if(!this.AbilityUseCalls.find(call => call.id == newcall.id)){
+                        this.AbilityUseCalls.push(newcall);
+                    }
+                });
 
-                    payload.data.items?.forEach((newcall: Use) => {
-                        if(!this.ItemUseCalls.find(call => call.id == newcall.id)){
-                            this.ItemUseCalls.push(newcall);
-                        }
-                    });
-                }
+                payload.data.items?.forEach((newcall: Use) => {
+                    if(!this.ItemUseCalls.find(call => call.id == newcall.id)){
+                        this.ItemUseCalls.push(newcall);
+                    }
+                });
+            }
+
+            if(payload.type == PayloadType.Equip){
+                let wantedItems = payload.data;
+
+                this.behaviorInterface.equipItems([...wantedItems]);
+            }
+                
         })
     }
 

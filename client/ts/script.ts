@@ -2,6 +2,7 @@ import { Socket } from './Socket';
 import { Keyboard } from './Keyboard';
 import { Vector } from './utils';
 import { Cursor } from './Cursor';
+import { EntityType } from './models/Entity';
 
 const canvas = document.createElement('canvas');
 
@@ -26,6 +27,8 @@ let cursor = new Cursor(canvas);
 let keyboard = new Keyboard(document.body);
 
 let movementVector = new Vector(0, 0);
+
+let cellSize = 500;
 
 setInterval(() => {
     keyboard.update();
@@ -87,9 +90,33 @@ setInterval(() => {
         ctx.fillStyle = '#161616';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        ctx.fillStyle = '#FFF';
+        ctx.strokeStyle = '#FFF8';
 
-        ctx.fillText(socket.entities.length.toString(), 10, 10);
+        ctx.beginPath();
+        for(let i = Math.floor(canvas.width / cellSize) + 1; i > -1; i--){
+            ctx.moveTo(
+                Math.round(i * cellSize - cameraPosition.x % cellSize + (canvas.width / 2 - cellSize)) + 0.5,
+                0
+            )
+            ctx.lineTo(
+                Math.round(i * cellSize - cameraPosition.x % cellSize + (canvas.width / 2 - cellSize)) + 0.5,
+                canvas.height
+            )
+        }
+        for(let i = Math.floor(canvas.height / cellSize) + 1; i > -1; i--){
+            ctx.moveTo(
+                0,
+                Math.round(i * cellSize - cameraPosition.y % cellSize + (canvas.height / 2 - cellSize)) + 0.5
+            )
+            ctx.lineTo(
+                canvas.width,
+                Math.round(i * cellSize - cameraPosition.y % cellSize + (canvas.height / 2 - cellSize)) + 0.5
+            )
+        }
+        ctx.stroke();
+
+
+        ctx.fillStyle = '#FFF';
 
         if(socket.controlled){
             ctx.beginPath();
@@ -106,15 +133,89 @@ setInterval(() => {
         socket.entities.forEach((e) => {
             let { position } = e;
 
+            let r = e.body ? e.body.radius : 10;
+            ctx.fillStyle = '#FFF';
+
             ctx.beginPath();
                 ctx.arc(
                     canvas.width / 2 - cameraPosition.x + position.x,
                     canvas.height / 2 - cameraPosition.y + position.y,
-                    e.body ? e.body.radius : 10,
+                    r,
                     0,
                     Math.PI*2
                 );
             ctx.fill();
+            
+            if(!e.health || !e.health?.max || e.type == EntityType.Projectile ) return;
+            let radius = (e.body) ? e.body.radius : 10;
+
+            ctx.strokeStyle = '#0008';
+
+            ctx.beginPath();
+                ctx.moveTo(
+                    canvas.width / 2 - cameraPosition.x + position.x - radius * 1.2,
+                    canvas.height / 2 - cameraPosition.y + position.y - radius * 1.2
+                )
+                ctx.lineTo(
+                    canvas.width / 2 - cameraPosition.x + position.x + radius * 1.2,
+                    canvas.height / 2 - cameraPosition.y + position.y - radius * 1.2
+                )
+            ctx.stroke();
+
+            ctx.strokeStyle = '#FFF';
+
+            let HPRatio = e.health.current / e.health.max;
+
+            ctx.beginPath();
+                ctx.moveTo(
+                    canvas.width / 2 - cameraPosition.x + position.x - radius * 1.2,
+                    canvas.height / 2 - cameraPosition.y + position.y - radius * 1.2
+                )
+                ctx.lineTo(
+                    canvas.width / 2 - cameraPosition.x + position.x - radius * 1.2 + radius * 2.4 * HPRatio,
+                    canvas.height / 2 - cameraPosition.y + position.y - radius * 1.2
+                )
+            ctx.stroke();
         })
+
+        ctx.strokeStyle = '#FFF';
+        ctx.fillStyle = '#FFF';
+
+        if(socket.controlled){
+
+            if(socket.controlled.health && socket.controlled.health?.max){
+                 
+                ctx.beginPath();
+                    ctx.moveTo(canvas.width * 0.35, canvas.height * 0.75);
+                    ctx.lineTo(canvas.width * 0.65, canvas.height * 0.75);
+                ctx.stroke();
+
+                ctx.fillRect(
+                    canvas.width * 0.35,
+                    canvas.height * 0.75 + 2,
+                    socket.controlled.health.current / socket.controlled.health.max * canvas.width * 0.3,
+                    5
+                ) 
+ 
+                ctx.textAlign = 'right';
+                ctx.font = '12px Ubuntu mono';
+
+                ctx.fillText(
+                    `${socket.controlled.health.current}/${socket.controlled.health.max}`,
+                    canvas.width * 0.65,
+                    canvas.height * 0.75 + 19
+                ) 
+            }
+             
+            ctx.beginPath();
+                ctx.arc(
+                    canvas.width / 2,
+                    canvas.height / 2,
+                    (socket.controlled.body) ? socket.controlled.body.radius : 10,
+                    0,
+                    Math.PI*2
+                );
+            ctx.fill(); 
+        }
     }
 }, 1000/60);

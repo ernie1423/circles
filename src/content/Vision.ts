@@ -11,7 +11,11 @@ interface PartialEntityData {
         y: number
     },
     body?: EntityBodiesData,
-    type: EntityType
+    type: EntityType,
+    health?: {
+        max?: number,
+        current: number
+    }
 }
 
 class Vision extends Ability {
@@ -49,7 +53,8 @@ class Vision extends Ability {
                 y: pos.y
             },
             body: entity.body?.data(),
-            type: entity.type
+            type: entity.type,
+            health: entity.health
         }
     }
 

@@ -32,6 +32,13 @@ class BehaviorInterface<E extends Entity> {
         this.behavior?.update();
     }
 
+    getEquipped(): ItemData[] | null {
+        if(this.entity.equipped !== undefined){
+            return this.entity.equipped.items.map(item => item.data()) 
+        }
+        else return null;
+    }
+
     /**
      * Получить данные предметов в инвентаре.
      */
@@ -59,13 +66,21 @@ class BehaviorInterface<E extends Entity> {
         else return null;
     }
 
+    equipItems(ids: string[]){
+        if(this.entity.equipped !== undefined && this.entity.inventory !== undefined){
+            let items = this.entity.inventory.items.filter(item => ids.includes(item.id));
+
+            this.entity.equipped.add(...items);
+        }
+    }
+
     /**
      * Пробует использовать предмет по его идентификатору. Возвращает true, если предмет удалось использовать, в ином случае false
      * 
      * @param id Идентификатор используемого предмета
      * @param data Входные данные для предмета
      */
-    useItem<I extends Item = Item>(id: string, data: Input): boolean {
+    useItem(id: string, data: Input): boolean {
         if(this.entity.equipped !== undefined){
             let item = this.entity.equipped.items.find(item => item.id == id);
 

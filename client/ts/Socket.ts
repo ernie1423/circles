@@ -4,7 +4,8 @@ import { Entity, EntityData } from "./models/Entity";
 enum PayloadType {
     Info = 1, // incoming
     Use = 2, // outgoing
-    Interact = 3 // outgoing
+    Interact = 3, // outgoing
+    Equip = 4 // outgoing
 }
 
 /*
@@ -12,7 +13,7 @@ enum PayloadType {
  */
 
 interface OutgoingPayload {
-    type: PayloadType.Use | PayloadType.Interact,
+    type: PayloadType.Use | PayloadType.Interact | PayloadType.Equip,
     data: any
 } 
 
@@ -37,7 +38,12 @@ interface InteractPayload extends OutgoingPayload {
     }
 }
 
-type OutgoingPayloads = UsePayload | InteractPayload;
+interface EquipPayload extends OutgoingPayload {
+    type: PayloadType.Equip,
+    data: string[];
+}
+
+type OutgoingPayloads = UsePayload | InteractPayload | EquipPayload;
 
 class Socket {
     inner!: WebSocket;
@@ -99,7 +105,6 @@ class Socket {
     }
 
     useAbility(id: string, data: InputData){
-
         this.send({
             type: PayloadType.Use,
             data: {
@@ -125,6 +130,27 @@ class Socket {
                 ) as Use[]
             }
         });
+    }
+
+    useItems(...items: [string, InputData][]){
+        this.send({
+            type: PayloadType.Use,
+            data: {
+                items: items.map(
+                    ([id, data]) => ({
+                        id: id,
+                        data: data
+                    })
+                )
+            }
+        })
+    }
+
+    equipItems(...itemIDs: string[]){
+        this.send({
+            type: PayloadType.Equip,
+            data: itemIDs
+        })
     }
 }
 

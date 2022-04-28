@@ -1,3 +1,9 @@
+@font-face
+{
+    src: url('./assets/UbuntuMono.ttf');
+    font-family: 'Ubuntu mono';
+}
+
 body
 {
     margin: 0;
